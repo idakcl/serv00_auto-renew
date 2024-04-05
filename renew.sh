@@ -8,6 +8,7 @@ read -p "请输入执行间隔 (默认为259200秒): " interval
 # 如果用户没有输入执行间隔，则默认值为259200秒
 interval=${interval:-259200}
 
+# 创建auto-renew.sh脚本
 cat > auto-renew.sh <<EOF
 #!/bin/bash
 
@@ -26,4 +27,12 @@ if pm2 -v >/dev/null 2>&1; then
 else
     echo "未检测到 pm2。请访问以下网址安装 pm2:"
     echo "https://github.com/giturass/cloudflared_freebsd/blob/main/install.sh"
+fi
+
+# 删除 renew.sh 文件
+if [ -f "renew.sh" ]; then
+    rm -f renew.sh
+    echo "本地 renew.sh 脚本已删除。"
+else
+    echo "未找到本地 renew.sh 脚本。"
 fi
